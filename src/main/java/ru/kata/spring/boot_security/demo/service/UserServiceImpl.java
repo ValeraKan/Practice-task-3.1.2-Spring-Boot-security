@@ -45,7 +45,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User getUserByEmail(String email) {
-        System.out.println(userRepository.findByEmail(email));
         return userRepository.findByEmail(email);
     }
 }
