@@ -7,7 +7,6 @@ import ru.kata.spring.boot_security.demo.dao.UserRepository;
 import ru.kata.spring.boot_security.demo.entity.User;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -44,8 +43,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public User getUserByEmail(String email) {
+        System.out.println(userRepository.findByEmail(email));
         return userRepository.findByEmail(email);
     }
 }
