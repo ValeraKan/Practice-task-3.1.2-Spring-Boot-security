@@ -22,7 +22,7 @@ public class User implements UserDetails {
     private String email;
     @Column
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE
                 , CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
             name = "user_roles",

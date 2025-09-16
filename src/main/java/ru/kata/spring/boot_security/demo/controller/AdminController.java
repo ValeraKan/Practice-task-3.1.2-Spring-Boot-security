@@ -7,23 +7,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.kata.spring.boot_security.demo.entity.User;
-import ru.kata.spring.boot_security.demo.service.UserService;
+import ru.kata.spring.boot_security.demo.service.AdminService;
 
 import java.util.List;
 
 @Controller
 public class AdminController {
 
-    private final UserService userService;
+    private final AdminService adminService;
 
     @Autowired
-    public AdminController(UserService userService) {
-        this.userService = userService;
+    public AdminController(AdminService adminService) {
+        this.adminService = adminService;
     }
 
     @GetMapping("/admin")
     public String showAllUsers(Model model) {
-        List<User> allUsers = userService.getAllUsers();
+        List<User> allUsers = adminService.getAllUsers();
         model.addAttribute("allUsers", allUsers);
         return "admin/all-users";
     }
@@ -45,20 +45,20 @@ public class AdminController {
         }
         user.setName(name);
         user.setEmail(email);
-        userService.saveUser(user);
+        adminService.saveUser(user);
         return "redirect:/admin";
     }
 
     @GetMapping("/admin/updateUser")
     public String updateUser(@RequestParam("id") Long id, Model model) {
-        User user = userService.getUser(id);
+        User user = adminService.getUser(id);
         model.addAttribute("user", user);
         return "admin/user-info";
     }
 
     @PostMapping("/admin/deleteUser")
     public String deleteUser(@RequestParam("id") Long id) {
-        userService.deleteUser(id);
+        adminService.deleteUser(id);
         return "redirect:/admin";
     }
 }

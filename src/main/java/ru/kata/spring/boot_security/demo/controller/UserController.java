@@ -24,7 +24,7 @@ public class UserController {
 
     @GetMapping("/user")
     public String showUserPage(@AuthenticationPrincipal UserDetails currentUser, Model model) {
-        User user = userService.getUserByEmail(currentUser.getUsername());
+        Object user = userService.getUserByEmail(currentUser.getUsername()); // уже User, без кастов
         model.addAttribute("user", user);
         return "user/user-page";
     }
