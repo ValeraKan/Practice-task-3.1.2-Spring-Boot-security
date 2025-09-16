@@ -16,11 +16,11 @@ public class WebSecurityConfig {
 
 
     private final UserDetailsService userDetailsService;
-    private final LoginSuccessHandler loginSuccessHandler;
+    private final SuccessUserHandler successUserHandler;
 
-    public WebSecurityConfig(UserDetailsService userDetailsService, LoginSuccessHandler loginSuccessHandler) {
+    public WebSecurityConfig(UserDetailsService userDetailsService, SuccessUserHandler successUserHandler) {
         this.userDetailsService = userDetailsService;
-        this.loginSuccessHandler = loginSuccessHandler;
+        this.successUserHandler = successUserHandler;
     }
 
     @Bean
@@ -35,7 +35,7 @@ public class WebSecurityConfig {
                         .loginPage("/login")
                         .usernameParameter("email")
                         .passwordParameter("password")
-                        .successHandler(loginSuccessHandler)
+                        .successHandler(successUserHandler)
                         .permitAll()
                 )
                 .logout(logout -> logout.permitAll())
