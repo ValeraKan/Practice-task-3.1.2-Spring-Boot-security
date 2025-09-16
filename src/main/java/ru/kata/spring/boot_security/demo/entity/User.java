@@ -22,7 +22,8 @@ public class User implements UserDetails {
     private String email;
     @Column
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE
+                , CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -40,7 +41,7 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public User(String email,String password) {
+    public User(String email, String password) {
         this.password = password;
         this.email = email;
     }
@@ -114,6 +115,7 @@ public class User implements UserDetails {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
     public void addRole(Role role) {
         if (roles == null) {
             roles = new HashSet<>();
