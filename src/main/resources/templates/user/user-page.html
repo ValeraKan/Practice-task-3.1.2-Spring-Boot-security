@@ -1,16 +1,197 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>User Page</title>
+    <title>User Information</title>
+    <style>
+        /* Reset */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            min-height: 100vh;
+            background-color: #f8f9fa;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: #343a40;
+            color: #fff;
+            padding-top: 20px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-header h4 { color: #fff; }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-menu li { margin-bottom: 0.5rem; }
+
+        .sidebar-menu a {
+            display: block;
+            color: rgba(255,255,255,0.8);
+            padding: 10px 15px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .sidebar-menu a:hover {
+            background-color: rgba(255,255,255,0.1);
+            color: #fff;
+            padding-left: 20px;
+        }
+
+        .sidebar-menu a.active {
+            background-color: #0d6efd;
+            color: #fff;
+        }
+
+        /* Main content */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: #343a40;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+
+        .user-info { font-size: 0.9rem; }
+
+        .btn-logout {
+            background-color: transparent;
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-logout:hover { background-color: rgba(255,255,255,0.1); }
+
+        /* User container */
+        .container {
+            padding: 20px;
+        }
+
+        .user-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #343a40;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #495057;
+        }
+
+        /* Table */
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+
+        .user-table th, .user-table td {
+            border: 1px solid #dee2e6;
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .user-table th {
+            background-color: #f1f3f5;
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body>
-<h2>Welcome, User!</h2>
 
-<p>ID: <span th:text="${user.id}"></span></p>
-<p>Name: <span th:text="${user.name}"></span></p>
-<p>Email: <span th:text="${user.email}"></span></p>
-<p>Roles: <span th:text="${user.roles}"></span></p>
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        <h4>Menu</h4>
+    </div>
+    <ul class="sidebar-menu">
+        <li><a href="/user" class="active">User</a></li>
+    </ul>
+</div>
 
-<a th:href="@{/logout}">Logout</a>
+<!-- Main Content -->
+<div class="main-content">
+    <!-- Navbar -->
+    <div class="navbar">
+        <span class="user-info">
+            <span th:if="${#authentication != null}">
+                <span th:text="${#authentication.name}">user@mail.ru</span> with roles:
+                <span th:text="${#authentication.authorities}">USER</span>
+            </span>
+        </span>
+        <a th:href="@{/logout}" class="btn-logout">Logout</a>
+    </div>
+
+    <!-- Content -->
+    <div class="container">
+        <div class="user-container">
+            <h2 class="page-header">User Information Page</h2>
+            <h4 class="section-title">About User</h4>
+
+            <table class="user-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role(s)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td th:text="${user.id}">3</td>
+                    <td th:text="${user.name}">user</td>
+                    <td th:text="${user.email}">user@mail.ru</td>
+                    <td>
+                            <span th:each="role, iterStat : ${user.roles}">
+                                <span th:text="${role.name}">USER</span><span th:if="${!iterStat.last}">, </span>
+                            </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

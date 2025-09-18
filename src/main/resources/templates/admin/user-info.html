@@ -1,19 +1,97 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>User Info</title>
+    <title>User Information</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+        }
+
+        .user-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .user-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #343a40;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 1rem;
+        }
+
+        h4 {
+            margin-bottom: 1rem;
+            color: #495057;
+        }
+
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .user-table th, .user-table td {
+            padding: 0.75rem;
+            border: 1px solid #dee2e6;
+            text-align: left;
+        }
+
+        .user-table th {
+            background-color: #f1f3f5;
+            font-weight: 600;
+        }
+
+        .btn-back {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 8px 16px;
+            text-decoration: none;
+            background-color: #6c757d;
+            color: #fff;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-back:hover {
+            background-color: #5a6268;
+        }
+    </style>
 </head>
 <body>
-<h2>User Form</h2>
+<div class="user-container">
+    <h2 class="user-header">User Information Page</h2>
+    <h4>About user</h4>
 
-<form th:action="@{/admin/saveUser}" th:object="${user}" method="post">
-    <input type="hidden" th:field="*{id}" />
-    <p>Name: <input type="text" th:field="*{name}"/></p>
-    <p>Email: <input type="text" th:field="*{email}"/></p>
-    <p>Password: <input type="password" th:field="*{password}"/></p>
-    <button type="submit">Save</button>
-</form>
+    <table class="user-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role(s)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${user.id}">3</td>
+            <td th:text="${user.name}">user</td>
+            <td th:text="${user.email}">user@mail.ru</td>
+            <td>
+                <span th:each="role, iterStat : ${user.roles}">
+                    <span th:text="${role.name}">USER</span><span th:if="${!iterStat.last}">, </span>
+                </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 
-<a th:href="@{/admin}">Back</a>
+    <a th:href="@{/admin}" class="btn-back">Back to Admin</a>
+</div>
 </body>
 </html>
